@@ -1,0 +1,6 @@
+-r requirements.txt
+setuptools
+mock
+tox
+pytest
+pytest-cov
