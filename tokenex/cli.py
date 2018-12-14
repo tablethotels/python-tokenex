@@ -1,5 +1,4 @@
 import os
-from pprint import pprint
 
 import argparse
 
@@ -65,69 +64,7 @@ CLI_COMMAND_MAP = {
 }
 
 
-def validate_args():
-
-    validation_errors = []
-    optional_args = CLI_COMMAND_MAP['optionals']
-
-    for key, arg in optional_args.items():
-
-        if getattr(ARGS, key) is None:
-            setattr(ARGS, key, os.environ.get(arg['envar'], None))
-            if not getattr(ARGS, key) and arg.get('required', None):
-                error_msg = "You must provide {0} via {1} {2}".format(
-                    key,
-                    arg['short_flag'],
-                    "or envar " + arg.get('envar', "")
-                )
-                validation_errors.append(error_msg)
-
-    # special validation for test_mode
-    test_mode_envar = os.environ.get(optionals['test_mode']['envar'], None)
-    if ARGS.test_mode is None or test_mode_envar is None:
-        ARGS.test_mode = False
-    elif ARGS.test_mode is None and test_mode_envar is True:
-        ARGS.test_mode = True
-
-    return validation_errors
-
-
-def main():
-
-    if ARGS.test_mode:
-        print("*** TEST MODE ENABLED ***")
-
-    tr = TokenexRequest(
-        ARGS.user_id,
-        ARGS.api_key,
-        tokenex_test_mode=ARGS.test_mode,
-        token_scheme_name=ARGS.token_scheme
-    )
-
-    result = None
-
-    if ARGS.action == "tokenize":
-        result = tr.tokenize(ARGS.value)
-    elif ARGS.action == "tokenize_encrypted":
-        result = tr.tokenize_encrypted(ARGS.value)
-    elif ARGS.action == "validate":
-        result = tr.validate(ARGS.value)
-    elif ARGS.action == "detokenize":
-        result = tr.detokenize(ARGS.value)
-    elif ARGS.action == "delete":
-        result = tr.delete(ARGS.value)
-
-    if result:
-        print("Result:")
-        for key, value in result.json.items():
-            print("\t{}: {}".format(key, value))
-        print("")
-    else:
-        print("\n** An unexpected error has occurred **\n")
-
-
-if __name__ == "__main__":
-
+def parse_args():  #pragma: no cover
     parser = argparse.ArgumentParser()
 
     positionals = CLI_COMMAND_MAP['positionals']
@@ -138,11 +75,90 @@ if __name__ == "__main__":
     for key, arg in optionals.items():
         parser.add_argument(str(arg['short_flag']), str(arg['long_flag']), **arg['options'])
 
-    ARGS = parser.parse_args()
+    args = parser.parse_args()
 
-    errors = validate_args()
+    return args
+
+
+def validate_args(args):
+
+    validation_errors = []
+    optional_args = CLI_COMMAND_MAP['optionals']
+
+    for key, arg in optional_args.items():
+
+        # skip test_mode
+        if key == 'test_mode':
+            continue
+
+        if getattr(args, key) is None:
+            setattr(args, key, os.environ.get(arg['envar'], None))
+            if not getattr(args, key) and arg.get('required', None):
+                error_msg = "You must provide {0} via {1} {2}".format(
+                    key,
+                    arg['short_flag'],
+                    "or envar " + arg.get('envar', "")
+                )
+                validation_errors.append(error_msg)
+
+    # special validation for test_mode
+    test_mode_envar = os.environ.get(optional_args['test_mode']['envar'], None)
+    if test_mode_envar and test_mode_envar.lower() == "true":
+        test_mode_envar = True
+    else:
+        test_mode_envar = False
+    # if arg not set
+    if args.test_mode is None:
+        if test_mode_envar:
+            args.test_mode = True
+
+    if args.test_mode is None:
+        args.test_mode = False
+
+    return validation_errors
+
+
+def main(args):
+
+    if args.test_mode:
+        print("*** TEST MODE ENABLED ***")
+
+    tr = TokenexRequest(
+        args.user_id,
+        args.api_key,
+        tokenex_test_mode=args.test_mode,
+        token_scheme_name=args.token_scheme
+    )
+
+    result = None
+
+    if args.action == "tokenize":
+        result = tr.tokenize(args.value)
+    elif args.action == "tokenize_encrypted":
+        result = tr.tokenize_encrypted(args.value)
+    elif args.action == "validate":
+        result = tr.validate(args.value)
+    elif args.action == "detokenize":
+        result = tr.detokenize(args.value)
+    elif args.action == "delete":
+        result = tr.delete(args.value)
+
+    if result:
+        print("Result:")
+        for key, value in result.json.items():
+            print("\t{}: {}".format(key, value))
+        print("")
+    else:
+        print("\n** An unexpected error has occurred **\n")  # pragma: no cover
+
+
+if __name__ == "__main__":
+
+    args = parse_args()
+    errors = validate_args(args)
+
     if len(errors) == 0:
-        main()
+        main(args)
     else:
         print("The following validation errors occurred:")
         for validation_error in errors:

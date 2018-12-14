@@ -4,3 +4,5 @@ mock
 tox
 pytest
 pytest-cov
+vcrpy
+pycrypto
