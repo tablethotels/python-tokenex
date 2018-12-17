@@ -1,0 +1,22 @@
+interactions:
+- request:
+    body: !!python/unicode '{"EcryptedData": "KDEpseiHuwDDeVl/3L969fSYurfJgoAhhD3JYExtfv13umH9lJRQk7BGx7ZCLMepmSwD+KmIXyww6PHMs6IB7ai1VdCVX1jN6mJxNX/NkygkFlMCcPLsxnP7ZZmrSwWD46Tkzunfh46cVIIZtXEOR9vYh0QzUtlD3SYx5Ocw0JWYONW3aOvLXetQAk7jpt/3+vfAAERyXI5P2Nac8mF2Gm/jkuUKKoPUTd4S4WchCsLU1L084Q8xRaM60Qcwng68mKdEwdOdtByl2ZzPqzvAiyfFhzO9mG0yi8qp5Kg9m3QjQhGVF7OC8+N9zwKQk5y0h2R7DCrPoCt4aoIAlamkyA==",
+      "TokenScheme": 7}'
+    headers:
+      Accept: [!!python/unicode 'application/json']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['469']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.21.0]
+    method: POST
+    uri: https://test-api.tokenex.com/TokenServices.svc/REST/TokenizeFromEncryptedValue
+  response:
+    body: {string: !!python/unicode '{"Error":"","ReferenceNumber":"18121709255946625880","Success":true,"Token":"6405845987401111"}'}
+    headers:
+      content-length: ['95']
+      content-type: [application/json; charset=utf-8]
+      date: ['Mon, 17 Dec 2018 15:25:58 GMT']
+      strict-transport-security: [max-age=60]
+    status: {code: 200, message: OK}
+version: 1
