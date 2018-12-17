@@ -56,4 +56,42 @@ interactions:
       date: ['Fri, 14 Dec 2018 17:51:44 GMT']
       strict-transport-security: [max-age=60]
     status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"Token": "4755717443321111"}'
+    headers:
+      Accept: [!!python/unicode 'application/json']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['116']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.21.0]
+    method: POST
+    uri: https://test-api.tokenex.com/TokenServices.svc/REST/DeleteToken
+  response:
+    body: {string: !!python/unicode '{"Error":"","ReferenceNumber":"18121709255923497638","Success":true}'}
+    headers:
+      content-length: ['68']
+      content-type: [application/json; charset=utf-8]
+      date: ['Mon, 17 Dec 2018 15:25:58 GMT']
+      strict-transport-security: [max-age=60]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"Token": "6405845987401111"}'
+    headers:
+      Accept: [!!python/unicode 'application/json']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['116']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.21.0]
+    method: POST
+    uri: https://test-api.tokenex.com/TokenServices.svc/REST/DeleteToken
+  response:
+    body: {string: !!python/unicode '{"Error":"","ReferenceNumber":"18121709260021196217","Success":true}'}
+    headers:
+      content-length: ['68']
+      content-type: [application/json; charset=utf-8]
+      date: ['Mon, 17 Dec 2018 15:25:59 GMT']
+      strict-transport-security: [max-age=60]
+    status: {code: 200, message: OK}
 version: 1

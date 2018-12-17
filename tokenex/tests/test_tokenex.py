@@ -58,6 +58,15 @@ def test_tokenize():
         assert result.json['Success']
 
 
+def test_tokenize_encrypted():
+
+    tr = test_init()
+
+    with MY_VCR.use_cassette('tokenize_encrypted.yml'):
+        result = tr.tokenize_encrypted(FAKE_DATA)
+        assert result.json['Success']
+
+
 def test_validate():
 
     tr = test_init()

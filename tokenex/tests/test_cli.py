@@ -34,6 +34,20 @@ def test_cli_tokenize():
         tokenex.cli.main(args)
 
 
+def test_cli_tokenize_encrypted():
+    args = argparse.Namespace(
+        action="tokenize_encrypted",
+        value="4111111111111111",
+        user_id="1234567890",
+        api_key="abcd123456",
+        token_scheme="nTOKENfour",
+        test_mode=True
+    )
+
+    with MY_VCR.use_cassette('tokenize_encrypted.yml'):
+        tokenex.cli.main(args)
+
+
 def test_cli_detokenize():
     args = argparse.Namespace(
         action="detokenize",
