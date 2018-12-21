@@ -152,8 +152,7 @@ def main(args):
         print("\n** An unexpected error has occurred **\n")  # pragma: no cover
 
 
-if __name__ == "__main__":
-
+def handle():  # pragma: no cover
     args = parse_args()
     errors = validate_args(args)
 
@@ -163,3 +162,8 @@ if __name__ == "__main__":
         print("The following validation errors occurred:")
         for validation_error in errors:
             print(" - " + validation_error)
+
+
+if __name__ == "__main__":
+
+    handle()

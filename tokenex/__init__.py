@@ -14,5 +14,3 @@ if (python_major_version, python_minor_version) not in SUPPORTED_VERSIONS:  # pr
     err_msg = 'This version of Python ({}.{}) is not supported!\n'.format(python_major_version, python_minor_version) +\
               'The following versions of Python are supported: {}'.format(formatted_supported_versions)
     raise RuntimeError(err_msg)
-
-__version__ = '0.0.1'
