@@ -9,6 +9,11 @@ import vcr
 from tokenex import TokenexRequest
 
 
+# This utility script updates the VCRpy cassettes for all unit tests.  Use -h for options.
+# When providing an encrypted string, you can use this pre-encrypted string on the
+# TokenEx test api
+# KDEpseiHuwDDeVl/3L969fSYurfJgoAhhD3JYExtfv13umH9lJRQk7BGx7ZCLMepmSwD+KmIXyww6PHMs6IB7ai1VdCVX1jN6mJxNX/NkygkFlMCcPLsxnP7ZZmrSwWD46Tkzunfh46cVIIZtXEOR9vYh0QzUtlD3SYx5Ocw0JWYONW3aOvLXetQAk7jpt/3+vfAAERyXI5P2Nac8mF2Gm/jkuUKKoPUTd4S4WchCsLU1L084Q8xRaM60Qcwng68mKdEwdOdtByl2ZzPqzvAiyfFhzO9mG0yi8qp5Kg9m3QjQhGVF7OC8+N9zwKQk5y0h2R7DCrPoCt4aoIAlamkyA==
+
 CASSETTE_DIR = os.path.join(
     os.path.dirname(
         os.path.realpath(__file__)
