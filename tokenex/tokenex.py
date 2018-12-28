@@ -1,17 +1,37 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import copy
+try:
+    from json.decoder import JSONDecodeError
+except ImportError:
+    JSONDecodeError = ValueError
 
 import requests
 
 
-class TokenexRequest(object):
-    """Object with methods for interacting with Tokenex APIs"""
+class TokenExException(Exception):
+    """
+    Exception for TokenEx Errors
+    """
 
-    # Base Tokenex URL
+    def __init__(self, error):
+        super(TokenExException, self).__init__()
+        self.error = error
+        self.error_code = error.get('Code')
+        self.message = error.get('Message')
+        self.reference_number = error.get('RefNumber')
+
+    def __str__(self):
+        return str(self.error)
+
+
+class TokenExRequest(object):
+    """Object with methods for interacting with TokenEx APIs"""
+
+    # Base TokenEx URL
     BASE_URL = "api.tokenex.com/TokenServices.svc/REST"
 
-    # Base Tokenex Transparent Gateway URL
+    # Base TokenEx Transparent Gateway URL
     BASE_TRANSPARENT_URL = "api.tokenex.com/TransparentGatewayAPI"
 
     # Command map to set method parameters by configuration
@@ -99,7 +119,7 @@ class TokenexRequest(object):
 
     @property
     def default_post_data(self):
-        """Generate default post data with Tokenex authentication info"""
+        """Generate default post data with TokenEx authentication info"""
 
         if self.api_key is None:
             raise AttributeError('Attribute api_key must be set')
@@ -118,7 +138,7 @@ class TokenexRequest(object):
         """Translate token scheme name to number"""
 
         if self.token_scheme_name not in self.TOKEN_SCHEMES:
-            raise AttributeError('{} is not a valid Token scheme, see Tokenex Docs'.format(
+            raise AttributeError('{} is not a valid Token scheme, see TokenEx Docs'.format(
                 self.token_scheme_name))
         return self.TOKEN_SCHEMES[self.token_scheme_name]
 
@@ -149,7 +169,7 @@ class TokenexRequest(object):
         options['headers'] = self.headers
 
         requests_response = requests.post(self.tokenex_url, **options)
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
     def detokenize(self, token):
         """Tokenize a credit card and return result"""
@@ -165,7 +185,7 @@ class TokenexRequest(object):
         options['headers'] = self.headers
 
         requests_response = requests.post(self.tokenex_url, **options)
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
     def tokenize_encrypted(self, data):
         """Tokenize a credit card that has already been browser encrypted"""
@@ -182,7 +202,7 @@ class TokenexRequest(object):
         options['headers'] = self.headers
 
         requests_response = requests.post(self.tokenex_url, **options)
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
     def validate(self, token):
         """Validate an existing token"""
@@ -198,7 +218,7 @@ class TokenexRequest(object):
         options['headers'] = self.headers
 
         requests_response = requests.post(self.tokenex_url, **options)
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
     def delete(self, token):
         """Delete an existing token"""
@@ -214,7 +234,7 @@ class TokenexRequest(object):
         options['headers'] = self.headers
 
         requests_response = requests.post(self.tokenex_url, **options)
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
     def transparent_detokenize(self, data, destination, method='POST', bypass=False):
         """
@@ -252,13 +272,12 @@ class TokenexRequest(object):
         else:
             requests_response = requests.post(target, **options)
 
-        return TokenexResponse(requests_response)
+        return TokenExResponse(requests_response)
 
 
-class TokenexResponse(object):
+class TokenExResponse(object):
 
     def __init__(self, requests_response):
-
         self.requests_response = requests_response
         self.codes = requests.codes
 
@@ -289,3 +308,17 @@ class TokenexResponse(object):
     def raise_for_status(self):
         self.requests_response.raise_for_status()
         return None
+
+    def raise_for_tokenex_status(self):
+        """
+        Raises exception if we encounter a TokenEx and only a TokenEx error
+        """
+        if not self.requests_response.status_code == requests.codes.ok:
+            try:
+                response_json = self.requests_response.json()
+            except JSONDecodeError:
+                return None
+
+            if 'Code' and 'RefNumber' in response_json.keys():
+                raise TokenExException(response_json)
+

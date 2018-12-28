@@ -12,7 +12,7 @@ from tokenex import TokenexRequest
 # This utility script updates the VCRpy cassettes for all unit tests.  Use -h for options.
 # When providing an encrypted string, you can use this pre-encrypted string on the
 # TokenEx test api
-# KDEpseiHuwDDeVl/3L969fSYurfJgoAhhD3JYExtfv13umH9lJRQk7BGx7ZCLMepmSwD+KmIXyww6PHMs6IB7ai1VdCVX1jN6mJxNX/NkygkFlMCcPLsxnP7ZZmrSwWD46Tkzunfh46cVIIZtXEOR9vYh0QzUtlD3SYx5Ocw0JWYONW3aOvLXetQAk7jpt/3+vfAAERyXI5P2Nac8mF2Gm/jkuUKKoPUTd4S4WchCsLU1L084Q8xRaM60Qcwng68mKdEwdOdtByl2ZzPqzvAiyfFhzO9mG0yi8qp5Kg9m3QjQhGVF7OC8+N9zwKQk5y0h2R7DCrPoCt4aoIAlamkyA==
+ENCRYPTED_SAMPLE_DATA = "KDEpseiHuwDDeVl/3L969fSYurfJgoAhhD3JYExtfv13umH9lJRQk7BGx7ZCLMepmSwD+KmIXyww6PHMs6IB7ai1VdCVX1jN6mJxNX/NkygkFlMCcPLsxnP7ZZmrSwWD46Tkzunfh46cVIIZtXEOR9vYh0QzUtlD3SYx5Ocw0JWYONW3aOvLXetQAk7jpt/3+vfAAERyXI5P2Nac8mF2Gm/jkuUKKoPUTd4S4WchCsLU1L084Q8xRaM60Qcwng68mKdEwdOdtByl2ZzPqzvAiyfFhzO9mG0yi8qp5Kg9m3QjQhGVF7OC8+N9zwKQk5y0h2R7DCrPoCt4aoIAlamkyA=="
 
 CASSETTE_DIR = os.path.join(
     os.path.dirname(
@@ -93,7 +93,9 @@ if __name__ == "__main__":
     parser.add_argument('data', help="Plaintext sample string for tokenization")
     parser.add_argument('-u', '--user-id', default=None, help="Tokenex User ID")
     parser.add_argument('-k', '--api-key', default=None, help="Tokenex API Key")
-    parser.add_argument('-e', '--encrypted-data', default=None, help="Tokenex Encryption Key")
+    parser.add_argument('-e', '--encrypted-data',
+                        default=ENCRYPTED_SAMPLE_DATA,
+                        help="Encrypted data sample")
 
     ARGS = parser.parse_args()
 
@@ -108,8 +110,5 @@ if __name__ == "__main__":
     if ARGS.api_key is None:
         print('You must specify a Tokenex API Key via -k or envar TOKENEX_API_KEY')
         sys.exit(1)
-
-    if ARGS.encrypted_data is None:
-        print('No encryption data provided, tokenize_encrypted step will be skipped')
 
     main()

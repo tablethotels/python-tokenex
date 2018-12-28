@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import sys
 
-from .tokenex import TokenexRequest, TokenexResponse
+from .tokenex import TokenExRequest, TokenExResponse, TokenExException
 
 SUPPORTED_VERSIONS = [(2, 7), (3, 4), (3, 5), (3, 6), (3, 7)]
 

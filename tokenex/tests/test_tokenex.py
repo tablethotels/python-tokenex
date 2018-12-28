@@ -2,7 +2,7 @@ import os
 
 import vcr
 
-from tokenex import TokenexRequest
+from tokenex import TokenExRequest
 
 TOKENEX_USER_ID = "1234567890"
 TOKENEX_API_KEY = "abcd123456"
@@ -31,7 +31,7 @@ def test_init():
         "Test-Header": "TESTING"
     }
 
-    tr = TokenexRequest(
+    tr = TokenExRequest(
         TOKENEX_USER_ID,
         TOKENEX_API_KEY,
         tokenex_test_mode=True,
@@ -43,7 +43,7 @@ def test_init():
     assert tr.api_key == TOKENEX_API_KEY
     assert tr.tokenex_test_mode is True
     assert tr.token_scheme_name == test_scheme
-    assert tr.token_scheme == TokenexRequest.TOKEN_SCHEMES[test_scheme]
+    assert tr.token_scheme == TokenExRequest.TOKEN_SCHEMES[test_scheme]
     assert tr.requests_options['headers'] == test_headers
 
     return tr

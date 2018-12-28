@@ -2,14 +2,14 @@ import os
 
 import argparse
 
-from .tokenex import TokenexRequest
+from .tokenex import TokenExRequest
 
 
 CLI_COMMAND_MAP = {
     "positionals": {
         "action": {
             "options": {
-                "choices": TokenexRequest.COMMAND_MAP.keys(),
+                "choices": TokenExRequest.COMMAND_MAP.keys(),
                 "help": "Command to run"
             }
         },
@@ -27,7 +27,7 @@ CLI_COMMAND_MAP = {
             "required": True,
             "options": {
                 "default": None,
-                "help": "Tokenex User ID"
+                "help": "TokenEx User ID"
             }
         },
         "api_key": {
@@ -37,7 +37,7 @@ CLI_COMMAND_MAP = {
             "required": True,
             "options": {
                 "default": None,
-                "help": "Tokenex API Key"
+                "help": "TokenEx API Key"
             }
         },
         "token_scheme": {
@@ -46,7 +46,7 @@ CLI_COMMAND_MAP = {
             "envar": "TOKENEX_SCHEME",
             "options": {
                 "default": "TOKENfour",
-                "choices": TokenexRequest.TOKEN_SCHEMES.keys(),
+                "choices": TokenExRequest.TOKEN_SCHEMES.keys(),
                 "help": "Tokenization Scheme"
             }
         },
@@ -123,7 +123,7 @@ def main(args):
     if args.test_mode:
         print("*** TEST MODE ENABLED ***")
 
-    tr = TokenexRequest(
+    tr = TokenExRequest(
         args.user_id,
         args.api_key,
         tokenex_test_mode=args.test_mode,
