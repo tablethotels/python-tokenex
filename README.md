@@ -1,4 +1,4 @@
-## Tokenex Python Module
+## TokenEx Python Module
 
 [![Build Status](https://travis-ci.org/tablethotels/python-tokenex.svg?branch=master)](https://travis-ci.org/tablethotels/python-tokenex)
 [![Coverage Status](https://coveralls.io/repos/github/tablethotels/python-tokenex/badge.svg?branch=master)](https://coveralls.io/github/tablethotels/python-tokenex?branch=master)
@@ -36,19 +36,19 @@ TokenEx test api.
       -s {nTOKEN,sixNTOKENfour,sixASCIITOKENfour,sixANTOKENfour,GUID,nGUID,sixTOKENfour,nTOKENfour,fourTOKENfour,fourASCIITOKENfour,TOKENfourNonLuhn,sixTOKENfourNonLuhn,ASCIITOKEN,SSN,ANTOKENAUTO,fourTOKENfourNonLuhn,fourANTOKENfour,TOKEN,ANTOKEN,TOKENfour,ASCIITOKENAUTO,NTOKENAUTO,ASCIITOKENfour,fourNTOKENfour,ANTOKENfour}, --token-scheme {nTOKEN,sixNTOKENfour,sixASCIITOKENfour,sixANTOKENfour,GUID,nGUID,sixTOKENfour,nTOKENfour,fourTOKENfour,fourASCIITOKENfour,TOKENfourNonLuhn,sixTOKENfourNonLuhn,ASCIITOKEN,SSN,ANTOKENAUTO,fourTOKENfourNonLuhn,fourANTOKENfour,TOKEN,ANTOKEN,TOKENfour,ASCIITOKENAUTO,NTOKENAUTO,ASCIITOKENfour,fourNTOKENfour,ANTOKENfour}
                             Tokenization Scheme
       -k API_KEY, --api-key API_KEY
-                            Tokenex API Key
+                            TokenEx API Key
       -u USER_ID, --user-id USER_ID
-                            Tokenex User ID
+                            TokenEx User ID
       -t, --test-mode       Enable Testing Mode
 
-### Tokenex Module
+### TokenEx Module
 
-The CLI uses an underlying Tokenex Python module to perform its operations, and this module
+The CLI uses an underlying TokenEx Python module to perform its operations, and this module
 is designed to be directly imported into your application.
 
-#### _tokenex.TokenexRequest(tokenex_id, api_key, token_scheme_name="nTOKENfour", requests_options=None, tokenex_test_mode=False)_
+#### _tokenex.TokenExRequest(tokenex_id, api_key, token_scheme_name="nTOKENfour", requests_options=None, tokenex_test_mode=False)_
 
-This Object represents a Tokenex Request, or more specifically a connection to perform multiple 
+This Object represents a TokenEx Request, or more specifically a connection to perform multiple 
 requests with.  It heavily relies on the Python Requests module.
 
 * _**tokenex_id**_  
@@ -68,7 +68,7 @@ If True, points your API call to the TokenEx testing environment
 
 ##### _Methods_
 
-All methods return a tokenex.TokenexResponse object
+All methods return a tokenex.TokenExResponse object
 
 * tokenize(value)  
 Tokenizes a string value
@@ -86,10 +86,10 @@ Validates an existing token
 Deletes existing token
 
 * transparent_detokenize(data, destination, method='POST', bypass=False)
-Sends a request thru the Tokenex Transparent Gateway API (https://docs.tokenex.com/?page=tgapi#)
+Sends a request thru the TokenEx Transparent Gateway API (https://docs.tokenex.com/?page=tgapi#)
 
     * _data_ - The POST data to be sent thru the gateway.  This can be form or json data, with the 
-    appropriate Content-type set in the requests_options of the TokenexRequest object
+    appropriate Content-type set in the requests_options of the TokenExRequest object
     
     * _destination_ - The full URI you wish to send your request to
     
@@ -99,14 +99,14 @@ Sends a request thru the Tokenex Transparent Gateway API (https://docs.tokenex.c
     can be useful for conditional requests where you do not want to send a token, since the API
     will error if no token is present in the request.
     
-#### _tokenex.TokenexResponse(requests_response):_
+#### _tokenex.TokenExResponse(requests_response):_
 
-A Requests-inspired response object, returned by TokenexRequest methods
+A Requests-inspired response object, returned by TokenExRequest methods
 
-* TokenexResponse.status_code - Status code of the response
-* TokenexResponse.text - The text output of the response body
-* TokenexResponse.content - The binary content of the response body
-* TokenexResponse.json - Dictionary representation of JSON response body
-* TokenexResponse.encoding - The encoding of the response
-* TokenexResponse.headers - The response headers
-* TokenexResponse.raise_for_status() - Raises exception for unsuccessful status_code
+* TokenExResponse.status_code - Status code of the response
+* TokenExResponse.text - The text output of the response body
+* TokenExResponse.content - The binary content of the response body
+* TokenExResponse.json - Dictionary representation of JSON response body
+* TokenExResponse.encoding - The encoding of the response
+* TokenExResponse.headers - The response headers
+* TokenExResponse.raise_for_status() - Raises exception for unsuccessful status_code
